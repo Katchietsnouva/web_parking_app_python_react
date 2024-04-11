@@ -1,0 +1,38 @@
+.carousel-container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.slick-slide img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.slick-dots {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+}
+
+.slick-dots li {
+  display: inline-block;
+  margin: 0 5px;
+}
+
+.slick-dots li button {
+  font-size: 12px;
+  line-height: 12px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background-color: #ccc;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.slick-dots li.slick-active button {
+  background-color: #555;
+}
+

@@ -7,6 +7,10 @@
     <!--<link href="css/tailwind.min.css" rel="stylesheet">-->
     <!--<script src="{{ url_for('static_css', filename='css/tailwind.min.css') }}"></script>-->
     <link href="{{ url_for('static_css', filename='css/tailwind.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css"/>
+    
+    <link href="{{ url_for('static_css', filename='css/home_page.css') }}" rel="stylesheet">
     <title>Park Booking App</title>
     <style>
       body {
@@ -26,7 +30,7 @@
         height: 50px;
         object-fit: cover;
         border-radius: 50%;
-    }
+      }
 
       h1 {
         color: #0066cc;
@@ -201,6 +205,29 @@
       .legend-item .not_available {
         background-color: lightcoral;
       }
+
+
+      .carousel {
+        margin-top: 50px; 
+      }
+      
+      .carousel img {
+        max-width: 40%;
+        height: auto; 
+        border-radius: 10px;
+      }
+      
+      /* Apply styles to the previous and next images */
+      .carousel .slick-prev img,
+      .carousel .slick-next img {
+        opacity: 0.5; /* Reduce opacity to make them appear subdued */
+        transition: opacity 0.3s ease; /* Add transition for smooth effect */
+      }
+
+      /* Apply styles to the active (main) image */
+      .carousel .slick-current img {
+        opacity: 1; /* Maintain full opacity for the active image */
+      }
     </style>
   </head>
   <body>
@@ -288,11 +315,13 @@
       <h2>Featured Content</h2>
       <p>On April holiday get 45% off of booking rates for every weekend!</p>
       <p>Explore our amazing features and services.</p>
-      <div class="flex space-x-6 rounded-md width-10px ">
-        <img src="{{ url_for('serve_static', filename='images/1.webp') }}" alt="Image">
-        <img src="{{ url_for('serve_static', filename='images/1.webp') }}" alt="Image">
+      <div class="carousel">
+          <div><img src="{{ url_for('serve_static', filename='images/1.webp') }}" alt="Image"></div>
+          <div><img src="{{ url_for('serve_static', filename='images/2.webp') }}" alt="Image"></div>
+          <div><img src="{{ url_for('serve_static', filename='images/3.webp') }}" alt="Image"></div>
+          <div><img src="{{ url_for('serve_static', filename='images/4.webp') }}" alt="Image"></div>
+          <div><img src="{{ url_for('serve_static', filename='images/5.webp') }}" alt="Image"></div>
       </div>
-      
     </div>
 
 
@@ -331,6 +360,27 @@
         var current_user_session_id = "all";
         window.location.href = "/parking_slot_id/" + parking_slot_id + "/" + current_user_session_id;
       }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.carousel').slick({
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 2000,
+                dots: true,
+                arrows: false
+            });
+        });
+        //$('.carousel').on('beforeChange', function(event, slick, currentSlide, nextSlide){
+          // Reset opacity for all images
+          //$('.slick-slide img').css('opacity', '0.5');
+          // Set full opacity for the main (current) image
+          //$('.slick-current img').css('opacity', '1');
+        //});
     </script>
   </body>
 </html>
