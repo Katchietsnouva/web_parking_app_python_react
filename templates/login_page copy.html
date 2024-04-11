@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        /*body {
+            background: radial-gradient(circle at 20% 50%, #E2F17AFA 0%, #92DFF1 100%);
+        }*/
+
+        /*body {
+            font-family: 'Arial', sans-serif;
+            background-image: url("{{ url_for('serve_static', filename='3.jpg') }}");
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            text-align: center;
+            margin: 20px;
+            padding: 20px;
+        }*/
+
+        body {
+            font-family: 'Arial', sans-serif;
+            position: relative; /* Set position to relative to contain absolutely positioned overlay */
+            text-align: center;
+        }
+        
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+        }
+        
+        .bg-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            object-position: center; 
+        }
+        
+        
+
+        h1 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        form {
+            max-width: 300px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-size: 0.9em;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        a {
+            display: block;
+            margin-top: 20px;
+            color: #3498db;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+
+        p {
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .message {
+            
+            background-color: green;
+            color: #fff;
+            padding: 12px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Login Page</h1>
+    <!-- <script>
+        var img = document.createElement('img');
+        img.src = 'assets/3.jpg'; 
+        document.body.appendChild(img);
+    </script> -->
+    <!-- <img src="{{ url_for('serve_static', filename='3.jpg') }}" alt="Your Image"> -->
+    
+    <div class="overlay"></div> 
+    <img class="bg-image" src="{{ url_for('serve_static', filename='3.jpg') }}" alt="Background Image">
+
+    
+    <form action="/login" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flashes">
+                <!--{% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+                -->
+                {% for category, message in messages %}
+                    <li class="{% if category == 'error' %}error{% else %}message{% endif %}">
+                    {{ message }}
+                    </li>
+                {% endfor %}    
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+
+    <p>Don't have an account? <a href="/register/new_user">Register here</a></p>
+</body>
+</html> 

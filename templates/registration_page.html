@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Creation</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f8f8;
+            text-align: center;
+            margin: 20px;
+            background: radial-gradient(circle at 20% 50%, #E2F17AFA 0%, #92DFF1 100%);
+        }
+
+        h1 {
+            color: #0066cc;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin: 10px 0;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        p {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        a {
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Account Creation</h1>
+
+    <!-- Registration form -->
+    <form action="/register/new_user" method="post">
+        
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" {% if user_registration_data %}value="{{ user_registration_data.username }}"{% endif %} required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" {% if user_registration_data %}value="{{ user_registration_data.password }}"{% endif %} required>
+
+        <label for="phone">Phone Number:</label>
+        <input type="text" id="phone" name="phone" {% if user_registration_data %}value="{{ user_registration_data.phone }}"{% endif %} required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" {% if user_registration_data %}value="{{ user_registration_data.email }}"{% endif %} required>
+
+        <label for="name">Car Manufacturer:</label>
+        <input type="text" id="carmanufacturer" name="carmanufacturer" {% if user_registration_data %}value="{{ user_registration_data.carmanufacturer }}"{% endif %} required>
+
+        <label for="carmodel">Car Model:</label>
+        <input type="text" id="carmodel" name="carmodel" {% if user_registration_data %}value="{{ user_registration_data.carmodel }}"{% endif %} required>
+
+        <label for="car_plate">Car Number Plate:</label>
+        <input type="text" id="car_plate" name="car_plate" {% if user_registration_data %}value="{{ user_registration_data.car_plate }}"{% endif %} required>
+
+        <!-- Hidden input field for the role -->
+        <input type="hidden" id="role" name="role" value="user">    
+
+        <!-- Register button -->
+        <button type="submit">Register</button>
+    </form>
+
+    <!-- Back to Home link -->
+    <p>Already have an account? <a href="/login">Login here</a></p>
+</body>
+</html>

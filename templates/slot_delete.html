@@ -1,0 +1,81 @@
+<!-- slot_delete.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Slot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: radial-gradient(circle at 20% 50%, #E2F17AFA 0%, #92DFF1 100%);
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        p {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .navigation {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            text-align: center; 
+        }
+        .navigation-button {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        
+        .button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Delete Slot</h1>
+        <p>Are you sure you want to delete this slot?</p>
+        <form method="POST">
+            <input type="hidden" name="confirmed" value="true">
+
+            <div class="navigation">
+                <!--<button onclick="goBack()" class="navigation-button">Go Back</button>-->
+                <button type="submit" class="navigation-button" >Yes, Delete</button>
+                <a href="{{ url_for('slot_management') }}" class="navigation-button">Cancel</a>            
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+
+
+

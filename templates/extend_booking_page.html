@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Extend Booking Page</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f8f8f8;
+        text-align: center;
+        margin: 20px;
+        background: radial-gradient(circle at 20% 50%, #E2F17AFA 0%, #92DFF1 100%);
+      }
+
+      h1 {
+        color: #333;
+        font-size: 2em;
+        margin-bottom: 20px;
+      }
+
+      form {
+        max-width: 400px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        color: #555;
+        font-size: 0.9em;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      button:disabled {
+        background-color: #dddddd;
+        cursor: not-allowed;
+      }
+
+      a {
+        display: block;
+        margin-top: 20px;
+        color: #3498db;
+        text-decoration: none;
+        font-size: 1em;
+      }
+
+      .success {
+        background-color: #4caf50;
+        color: #fff;
+        padding: 12px;
+        border-radius: 5px;
+        margin-top: 10px;
+      }
+
+      .error {
+        background-color: #f44336;
+        color: #fff;
+        padding: 12px;
+        border-radius: 5px;
+        margin-top: 10px;
+      }
+      
+      .message {
+        background-color: green;
+        color: #fff;
+        padding: 12px;
+        border-radius: 5px;
+        margin-top: 10px;
+      }
+
+      .form-section {
+        margin-bottom: 20px;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 0.9em;
+      }
+
+      button {
+        background-color: #3498db;
+        color: #fff;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1em;
+        transition: background-color 0.3s ease;
+      }
+      #ticket_id {
+        font-size: 18px; 
+        color: #45a049;
+        background-color: #f7f7f7; 
+        border: 1px solid #ccc; 
+        padding: 8px;
+        border-radius: 5px;
+      }
+    </style>
+    <!-- Include jQuery -->
+    <!--<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> -->
+    <!-- <script src="js/jquery-3.6.4.min.js"></script> -->
+    <script src="{{ url_for('static', filename='js/jquery-3.6.4.min.js') }}"></script>
+
+    <script>
+      //  jQuery code (When the ticket ID is selected, fetch details and populate the form fields)
+      $(document).ready(function () {
+        var selectedTicketId; //dECLARING IN OUTETR SCOPE
+        $("#ticket_id").change(function () {
+          selectedTicketId = $(this).val();
+
+          // Perform an AJAX request to  server to fetch details based on the selected ticket ID
+          $.get(
+            "/get_selected_ticket_details",
+            { ticket_id: selectedTicketId },
+            function (data) {
+              // Update form fields with the received data
+              $("#arrival_date").val(data.arrival_date);
+              $("#arrival_time").val(data.arrival_time);
+              $("#departure_date").val(data.departure_date);
+              $("#departure_time").val(data.departure_time);
+              // Store the selected ticket ID in a variable
+              selectedTicketId = data.ticket_id;
+              // Update the hidden input field for departure time
+              $("#departure_time_input").val(data.departure_time);
+            }
+          );
+        });
+
+        // Event handler for the "Extend Booking" button
+        $("#extend_button").click(function () {
+          // Get the selected ticket ID and departure time
+          #ticket_id {
+            font-size: 18px; 
+            color: #45a049;
+            background-color: #f7f7f7; 
+            border: 1px solid #ccc; 
+            padding: 8px;
+            border-radius: 5px;
+          }// var selectedTicketId = $("#ticket_id").val();
+          var departureTime = $("#departure_time_input").val();
+          // Perform an AJAX request to extend the booking
+
+          $.ajax({
+            url: "/extendbook",
+            method: "POST",
+            data: {
+              ticket_id: selectedTicketId,
+              departure_time: departureTime,
+              extension_time: $("#extension_time").val(),
+            },
+            success: function (response) {
+              // Handle the response if needed
+              console.log(response);
+            },
+            error: function (error) {
+              // Handle the error if needed
+              console.error(error);
+            },
+          });
+        });
+      });
+    </script>
+  </head>
+  <!-- Form to extend booking -->
+  <body>
+    <h1>Extend Booking Duration Page</h1>
+
+    <!--  form for selecting the ticket id and it will automaticaly populate the datetime fields from json file-->
+    <form action="/extendbook" method="post" onsubmit="return validateForm();">
+      <label for="booking_id"
+        >Select Your Available Ticket IDs That You Wish TO Extend:
+      </label>
+      <select id="ticket_id" name="ticket_id" required>
+        <option value="" disabled selected>Select a Ticket ID</option>
+        {% for ticket_id in user_booked_ticket_ids %}
+          <option value="{{ ticket_id }}">{{ ticket_id }}</option>
+        {% endfor %}
+      </select>
+      
+
+      <!--<label type="hidden" for="arrival_date">Selected Ticket Arrival Date:</label> -->
+      <input type="hidden" type="date" id="arrival_date" name="arrival_date" />
+
+      <!-- <label type="hidden" for="arrival_time">Selected Ticket Arrival Time:</label> -->
+      <input type="hidden" type="time" id="arrival_time" name="arrival_time" />
+
+      <!--  <label type="hidden" for="departure_date">Selected Ticket Departure Date:</label> -->
+      <input type="hidden" type="date" id="departure_date" name="departure_date" />
+
+      <!-- <label type="hidden" for="departure_time">Selected Ticket Departure Time:</label> -->
+      <input type="hidden" type="time" id="departure_time" name="departure_time" />
+
+      <!-- Input to extend booking -->
+      <label for="extension_time"
+        >Extend Booking Time (in minutes) (if greater than 300 min, book a new
+        ticket):</label
+      >
+      <input
+        type="number"
+        id="extension_time"
+        name="extension_time"
+        min="1"
+        required
+      />
+      <p>
+        Duration: {% if duration is defined %}{{ duration }} min extension time {% else %}N/A{%
+        endif %}
+      </p>
+      <!-- Flash messages -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+          <ul class="flashes">
+              {% for category, message in messages %}
+                  <li class="{% if category == 'error' %}error{% else %}message{% endif %}">
+                  {{ message }}
+                  </li>
+              {% endfor %}    
+          </ul>
+      {% endif %}
+      {% endwith %}
+
+      <!-- Extend Booking button -->
+      <!--<button type="submit" id="extend_button_">Extend Booking</button>-->
+
+      <!--<button type="submit">Book Parking</button>-->
+      <button type="submit" id="submitBtn" >Extend Booking</button>
+      <!--initially disabled-->
+      <button type="button" id="proceedToPaymentBtn" disabled onclick="proceedToPayment()">Proceed to Payment</button>
+      <script>
+        function validateForm() {
+            // Return true if the form is valid, false otherwise
+            return true;
+        }
+    
+        function enableProceedToPayment() {
+            // Enable the "Proceed to Payment" button
+            document.getElementById('proceedToPaymentBtn').removeAttribute('disabled');
+            document.getElementById('submitBtn').setAttribute('disabled', 'disabled');
+        }
+
+        function proceedToPayment() {
+          // Redirect to payment page with the booking ID
+          //window.location.href = "/payment";
+          //window.location.href = "/payment/{{ latest_booking_id }}";
+          var latest_booking_id = "{{ latest_booking_id }}";  
+          window.location.href = "/payment/" + latest_booking_id;
+       }
+
+        // if the booking was successful enable the "Proceed to Payment" button
+        document.addEventListener("DOMContentLoaded", function() {
+          var extendbookingSuccessful = {% if extended_booking_successful %}true{% else %}false{% endif %};
+          if (extendbookingSuccessful) {
+              enableProceedToPayment();
+          }
+        });
+      </script>
+    </form>
+    <a href="/home">Home Page</a>
+  </body>
+</html>

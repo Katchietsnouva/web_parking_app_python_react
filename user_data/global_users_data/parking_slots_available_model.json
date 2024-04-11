@@ -1,0 +1,22 @@
+[
+    {
+        "parking_slot_id": "SLOT-001",
+        "slot_status": "Good",
+        "available_for_use": true
+    },
+    {
+        "parking_slot_id": "SLOT-002",
+        "slot_status": "Good",
+        "available_for_use": true
+    },
+    {
+        "parking_slot_id": "SLOT-003",
+        "slot_status": "Good",
+        "available_for_use": true
+    },
+    {
+        "parking_slot_id": "SLOT-004",
+        "slot_status": "Good",
+        "available_for_use": true
+    }
+]

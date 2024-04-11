@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="{{ url_for('static_css', filename='css/tailwind.min.css') }}" rel="stylesheet">
+    <!--    <link rel="stylesheet" href="./styles.css"> -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: radial-gradient(circle at 20% 50%, #E2F17AFA 0%, #92DFF1 100%);
+            margin: 20px;
+        }
+
+        img.bg-image{
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        
+        
+        .container {
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px; 
+        }
+        
+        .header {
+            grid-column: 1 / -1; 
+            text-align: center;
+            margin-bottom: 30px;
+        }    
+        
+        .data-section {
+            background: linear-gradient(45deg, #9E849E 0%, #DAE2E4 100%);
+            border: 1px solid #dee2e6;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        
+        .data-section h2 {
+            margin-top: 0;
+        }
+        
+        .data-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .data-item {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            background: linear-gradient(45deg, #9E849E 0%, #DAE2E4 100%);
+      
+        }
+        
+        .data-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .data-info {
+            flex: 1;
+        }
+        
+        .user-section {
+            grid-column: 1; 
+        }
+        
+        .time-section {
+            grid-column: 2; 
+        }
+        
+        .payment-section {
+            grid-column: 3; 
+        }
+
+        .slot-section {
+            grid-column: 4; 
+        }
+        .navigation {
+            grid-column: 1 / -1; 
+            display: flex;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }        
+        
+        .navigation-button {
+            background-color: #007bff;
+            color: #ffffff;
+            grid-column: 3; 
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-right: 10px;
+            margin-bottom: 20px;
+        }        
+        .navigation-button:hover {
+            background-color: #056b3;
+        }      
+        
+        h1 {
+            color: blue;
+            font-size: 45px;
+        }
+        
+    </style>
+</head>
+<body>
+    <nav class="bg-gradient-to-r from-purple-500 to-indigo-500 p-4 rounded-md">
+        <div class="btn_container mx-auto flex justify-between items-center">
+          <!-- Logo -->
+          <div class="flex space-x-6">
+            <img href="#" class="bg-image" src="{{ url_for('serve_static', filename='images/1.webp') }}" alt="Background Image">
+            <a href="#" class="text-white font-bold text-xl">Parking App</a>
+          </div>
+          <!-- Navigation Links -->
+          <div class="flex space-x-4">
+              <a href="/profit_loss" class="text-white hover:bg-gray-800 rounded-md px-4 py-2">Profit/Loss</a>
+              <a href="/slot_management" class="text-white hover:bg-gray-800 rounded-md px-4 py-2">Slot Management</a>
+              <a href="/login" class="text-white hover:text-gray-300 px-4 py-2 rounded-md bg-gray-800">Logout</a>
+          </div>
+        </div>
+      </nav>
+  
+  
+    <div class="container">
+        <h1 class="header">Admin Page</h1>
+        
+        <!-- Users Section -->
+        <div class="data-section user-section">
+            <h2>Users</h2>
+            <ul class="data-list">
+                {% for user in all_users %}
+                    <li class="data-item">
+                        <div class="data-details">
+                            <div class="data-info">
+                                <p><strong>Name:</strong> <strong> {{ user.username }} </strong> </p>
+                                <p><strong>Email:</strong> {{ user.email }}</p>
+                                <p><strong>Phone:</strong> {{ user.phone }}</p>
+                                <p><strong>Role:</strong> {{ user.role }}</p>
+                                <p><strong>Customer Number:</strong> {{ user.customer_number }}<br>
+                                <p><strong>User ID:</strong> {{ user.user_id }}
+                            </div>
+                        </div>
+                        <div class="user-actions">
+                            <button class="btn btn-primary" onclick="editUserAccount('{{user.user_id}}')" >Edit</button>
+                            <button class="btn btn-danger" onclick="deleteUserAccount('${user.user_id}')" >Delete</button>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <!-- Parking Time Data Section -->
+        <div class="data-section time-section">
+            <h2>Parking Time Data</h2>
+            <ul class="data-list">
+                {% for time_data in all_booking_time_data %}
+                    <li class="data-item">
+                        <div class="data-details">
+                            <div class="data-info">
+                                <p><strong>Booking ID:</strong> <strong>{{ time_data.booking_id }}</strong></p>
+                                <p><strong>Customer Number:</strong> {{ time_data.customer_number }}</p>
+                                <p><strong>Arrival Date:</strong> {{ time_data.arrival_date }}</p>
+                                <p><strong>Arrival Time:</strong> {{ time_data.arrival_time }}</p>
+                                <p><strong>Departure Date:</strong> {{ time_data.departure_date }}</p>
+                                <p><strong>Departure Time:</strong> {{ time_data.departure_time }}</p>
+                                <p><strong>Duration Minutes:</strong> {{ time_data.duration_minutes }}</p>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <!-- Payment Data Section -->
+        <div class="data-section payment-section">
+            <h2>Payment Data</h2>
+            <ul class="data-list">
+                {% for payment_data in all_payment_data %}
+                    <li class="data-item">
+                        <div class="data-details">
+                            <div class="data-info">
+                                <p><strong>Payment ID:</strong> <strong>  {{ payment_data.payment_id }} </strong> </p>
+                                <p><strong>Booking ID:</strong> {{ payment_data.booking_id }}</p>
+                                <p><strong>Customer Number:</strong> {{ payment_data.customer_number }}</p>
+                                <p><strong>Payment Date:</strong> {{ payment_data.payment_date }}</p>
+                                <p><strong>Duration Minutes:</strong> {{ payment_data.duration_minutes }}</p>
+                                <p><strong>Amount:</strong> {{ payment_data.amount }}</p>
+                                <p><strong>Paid Status:</strong> {{ payment_data.is_paid }}</p>
+                                <p><strong>Payment Type:</strong> {{ payment_data.payment_type }}</p>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+
+        <!-- Slots Data Section -->
+        <div class="data-section slot-section">
+            <h2>Parking SLots Data</h2>
+            <ul class="data-list">
+                {% for slot_data in all_pparking_slots_available_data %}
+                    <li class="data-item">
+                        <div class="data-details">
+                            <div class="data-info">
+                                <p><strong>Parking Slot ID:</strong> <strong>  {{ slot_data.parking_slot_id }} </strong> </p>
+                                <p><strong>Slot Status:</strong> {{ slot_data.slot_status }}</p>
+                                <p><strong>Available For Use:</strong> {{ slot_data.available_for_use }}</p>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <script>
+        function editUserAccount(user_id){
+            window.location.href = `/register/${user_id}`;
+        }
+
+        function deleteSlot(user_id) {
+            const confirmed = confirm("Are you sure you want to delete this slot?");
+            if (confirmed) {
+                window.location.href = `/user_account_delete/${user_id}`;
+            }
+        }
+    </script>
+</body>
+</html>

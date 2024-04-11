@@ -1,0 +1,90 @@
+body {
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle at 20% 50%, #E2F17AFA 0%, #92DFF1 100%);
+    margin: 20px;
+}
+
+.container {
+    display: grid; 
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px; 
+}
+
+.header {
+    grid-column: 1 / -1; 
+    text-align: center;
+    margin-bottom: 30px;
+}    
+
+.data-section {
+    background: linear-gradient(45deg, #9E849E 0%, #DAE2E4 100%);
+    border: 1px solid #dee2e6;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.data-section h2 {
+    margin-top: 0;
+}
+
+.data-list {
+    list-style: none;
+    padding: 0;
+}
+
+.data-item {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background: linear-gradient(45deg, #9E849E 0%, #DAE2E4 100%);
+
+}
+
+.data-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.data-info {
+    flex: 1;
+}
+
+.user-section {
+    grid-column: 1; 
+}
+
+.time-section {
+    grid-column: 2; 
+}
+
+.payment-section {
+    grid-column: 3; 
+}
+
+.slot-section {
+    grid-column: 4; 
+}
+.navigation {
+    grid-column: 1 / -1; 
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    justify-content: center;
+}        
+
+.navigation-button {
+    background-color: #007bff;
+    color: #ffffff;
+    grid-column: 3; 
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+}        
+.navigation-button:hover {
+    background-color: #056b3;
+}                

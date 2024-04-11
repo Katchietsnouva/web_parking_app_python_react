@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profit/Loss Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: radial-gradient(circle at 20% 50%, #E2F17AFA 0%, #92DFF1 100%);
+            margin: 20px;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 20px;
+        }
+        .cube {
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+        }
+        .profit {
+            background: radial-gradient(circle at 50% 50%, rgba(12, 201, 119, 1) 0%, rgba(0, 196, 212, 1) 0%, rgba(238, 130, 238, 1) 100%);
+        }
+        .loss {
+            background: radial-gradient(circle at 50% 50%, rgba(255, 34, 0, 1) 0%, rgba(255, 31, 0, 1) 0%, rgba(228, 73, 228, 1) 100%);
+        }
+        .no-data {
+            background: radial-gradient(circle at 50% 50%, rgba(255, 34, 0, 1) 0%, rgba(255, 250, 0, 1) 0%, rgba(66, 215, 3, 1) 100%);
+        }
+        .month-label {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .navigation {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .navigation-button {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .navigation-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Legend styles */
+        .legend {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .legend-item {
+            display: inline-block;
+            margin-right: 20px;
+        }
+        .legend-item span {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+            border-radius: 50%;
+        }
+        .legend-item .profit {
+            background: radial-gradient(circle at 50% 50%, rgba(12, 201, 119, 1) 0%, rgba(0, 196, 212, 1) 0%, rgba(238, 130, 238, 1) 100%);
+        }
+        .legend-item .loss {
+            background: radial-gradient(circle at 50% 50%, rgba(255, 34, 0, 1) 0%, rgba(255, 31, 0, 1) 0%, rgba(228, 73, 228, 1) 100%);
+        }
+        .legend-item .no-data {
+            background: radial-gradient(circle at 50% 50%, rgba(255, 34, 0, 1) 0%, rgba(255, 250, 0, 1) 0%, rgba(66, 215, 3, 1) 100%);
+        }
+    </style>
+</head>
+<body>
+    <h1>Profit/Loss Dashboard For the Last 12 Months</h1>
+    <div class="navigation">
+        <button onclick="goBack()" class="navigation-button">Go Back</button>
+        <a href="/login" class="navigation-button">Logout</a>
+        <a href="/admin" class="navigation-button">To Admin Page</a>            
+    </div>
+    <!-- Legend -->
+    <div class="legend">
+        <div class="legend-item">
+            <span class="profit"></span>
+            Profit
+        </div>
+        <div class="legend-item">
+            <span class="loss"></span>
+            Loss
+        </div>
+        <div class="legend-item">
+            <span class="no-data"></span>
+            No data
+        </div>
+    </div>
+    <!-- Container for cubes -->
+    <div class="container">
+        <!-- Loop of the last 12 months -->
+        {% if profit_loss_data.last_12_months %}
+            {% for month in profit_loss_data.last_12_months %}
+                {% if month in profit_loss_data.months_data %}
+                    {% set data = profit_loss_data.months_data[month] %}
+                    <div class="cube {% if data.total_income is not none %}{% if data.profit_loss >= 10000 %}profit{% elif data.profit_loss < 10000 %}loss{% endif %}{% else %}no-data{% endif %}">
+                        <div class="month-label">{{ month }}</div>
+                        {% if data.total_income is not none %}
+                            <p>Total Income: {{ data.total_income }}</p>
+                            <p>Total Expenses: {{ data.total_expenses }}</p>
+                            <p>Profit/Loss: {{ data.profit_loss }}</p>
+                        {% else %}
+                            <p>No data available</p>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="cube no-data">
+                        <div class="month-label">{{ month }}</div>
+                        <p>No data available</p>    
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <div class="cube no-data">
+                <p>No data available</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        // Function for generating month and year label
+        function generateMonthLabel(month) {
+            var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            var year = parseInt(month.split(' ')[1]);
+            var monthIndex = months.indexOf(month.split(' ')[0]);
+            var prevMonthIndex = monthIndex === 0 ? 11 : monthIndex - 1;
+            var prevYear = prevMonthIndex === 11 ? year - 1 : year;
+            var prevMonth = months[prevMonthIndex];
+            return prevMonth + ' ' + prevYear;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Calculate the number of existing cubes
+            var existingCubes = document.querySelectorAll('.cube').length;
+            var remainingCubes = existingCubes ? 12 - existingCubes : 12;
+            // Retrieve last month with available data
+            var lastMonth = existingCubes ? document.querySelector('.container .cube:nth-last-child(1) .month-label').innerText : 'March 2024';
+            // Generate the remaining cubes
+            for (var i = 0; i < remainingCubes; i++) {
+                var newCube = document.createElement('div');
+                newCube.classList.add('cube');
+                newCube.classList.add('no-data');
+                var monthLabel = generateMonthLabel(lastMonth);
+                newCube.innerHTML = '<div class="month-label">' + monthLabel + '</div><p>No data available</p>';
+                document.querySelector('.container').appendChild(newCube);
+                lastMonth = monthLabel;
+            }
+        });
+    </script>
+</body>
+</html>

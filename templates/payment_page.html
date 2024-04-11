@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: radial-gradient(circle at 20% 50%, #E2F17AFA 0%, #92DFF1 100%);
+            text-align: center;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #0066cc;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        select, input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .payment-details {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: left;
+        }
+
+        .payment-details .field {
+            margin-bottom: 10px;
+        }
+
+        .field label {
+            font-weight: bold;
+            display: inline-block;
+            width: 150px;
+        }
+
+        .btn-back-to-home {
+            display: inline-block;
+            margin-top: 10px;
+            background-color: #3498db;
+            color: #fff;
+            font-size: 18px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            height: 50px;
+        }
+
+        .btn-back-to-home:hover {
+            background-color: #2980b9;
+        }
+
+        button:disabled {
+            background-color: #dddddd;
+            cursor: not-allowed;
+        }
+
+        button {
+            background-color: #12CD11;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+          }
+    
+          button:hover {
+            background-color: #45a049;
+          }
+    
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Payment Page</h1>
+        {% if latest_mod_ticket_details %}
+        <h2>Pay Now</h2>
+        <p><strong>Booking ID:</strong> {{ latest_mod_ticket_details.booking_id }}</p>
+        <p><strong>Customer Number:</strong> {{ latest_mod_ticket_details.customer_number }}</p>
+        <form method="post" action="/make_payment">
+            <label for="payment-type">Select Payment Type:</label>
+            <select id="payment-type" name="payment_type">
+                <option value="mpesa">M-Pesa</option>
+                <option value="debit">Debit</option>
+                <option value="cash">Cash</option>
+            </select>
+            <input type="hidden" name="booking_id" value="{{ latest_mod_ticket_details.booking_id }}">
+            <input type="hidden" name="customer_number" value="{{ latest_mod_ticket_details.customer_number }}">
+            <button type="submit" id="submitBtn" >Make Payment</button>
+            <button type="button" id="homBtn" disabled onclick="goToHomePage()">Next</button>
+
+            <script>
+
+                function goToHomePage() {
+                    window.location.href = "/home";
+                }
+
+                function enableProceedToPayment() {
+                    // Enable the "Proceed to Payment" button
+                    document.getElementById('homBtn').removeAttribute('disabled');
+                    document.getElementById('submitBtn').setAttribute('disabled', 'disabled');
+                }
+                // if the booking was successful enable the "Proceed to Payment" button
+                function enableProceedToPaymentButton() {
+                var paymentSuccessful = {% if payment_successful %}true{% else %}false{% endif %};
+                    if (paymentSuccessful) {
+                        enableProceedToPayment();
+                    }
+                }
+
+                document.addEventListener('DOMContentLoaded', enableProceedToPaymentButton);
+                
+            </script>
+
+        </form>
+        <div class="payment-details">
+            <h2>Payment Details</h2>
+            {% if selected_payment_data %}
+            <div class="field">
+                <label>Payment ID:</label>
+                <span>{{ selected_payment_data.payment_id }}</span>
+            </div>
+            <div class="field">
+                <label>Payment Date:</label>
+                <span>{{ selected_payment_data.payment_date }}</span>
+            </div>
+            <div class="field">
+                <label>Duration (minutes):</label>
+                <span>{{ selected_payment_data.duration_minutes }}</span>
+            </div>
+            <div class="field">
+                <label>Amount:</label>
+                <span>{{ selected_payment_data.amount }}</span>
+            </div>
+            <div class="field">
+                <label>Payment Status:</label>
+                <span>{{ selected_payment_data.is_paid }}</span>
+            </div>
+            <div class="field">
+                <label>Payment Type:</label>
+                <span>{{ selected_payment_data.payment_type }}</span>
+            </div>
+            {% else %}
+            <p>No payment data available.</p>
+            {% endif %}
+        </div>
+        {% else %}
+      <h1>Your Book Tickets History</h1>
+      <div class="right-half-3">
+        <a href="/home" class="btn-back-to-home">Back</a>
+        
+        <h2>Payment Information</h2>
+        <h4>(0.8 Kshs. per min)</h4>
+        {% if user_bookings %} {% for booking in user_bookings %}
+        <div class="booking-entry">
+
+            <p><strong>Booking ID:</strong> {{ booking['booking_id'] }}</p>
+            <p><strong>Time (in min):</strong> {{ booking['duration_minutes'] }}</p>
+            <p><strong>Amount (in Kshs.):</strong> {{ calculate_amount(booking['duration_minutes']) }}</p>
+            <label for="payment-type"><p><strong>Select Payment Type:</strong></label>
+            <select id="payment-type" name="payment_type">
+                <option value="mpesa">M-Pesa</option>
+                <option value="debit_cash">Debit/Cash</option>
+            </select>
+        </div>
+        {% endfor %} {% else %}
+        <p>No Payment Information found. Book now to populate this menu!</p>
+        {% endif %}
+        </div>
+        {% endif %}
+        </div>
+
+</body>
+</html>

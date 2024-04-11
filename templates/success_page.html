@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Success</title>
+  </head>
+  <body>
+    <h1>{{ message }}</h1>
+    <p>Redirecting to <a href="{{ redirect_url }}">Continue</a>...</p>
+    <!--{% if duration %}
+    <p>Duration: {{ duration }}</p>
+    {% endif %} -->
+    <script>
+      setTimeout(function () {
+        window.location.href = "{{ redirect_url }}";
+      }, 1000);
+    </script>
+  </body>
+</html>
