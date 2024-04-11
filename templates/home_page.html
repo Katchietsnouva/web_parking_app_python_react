@@ -32,10 +32,17 @@
 
       h1 {
         color: #0066cc;
+        font-size: 36px;
       }
 
       p {
         color: #333;
+      }
+
+      .intro_section h2,
+      .intro_section h3,
+      .intro_section p {
+        color: rgba(196, 197, 191, 1);
       }
 
       .custom-section {
@@ -250,11 +257,13 @@
       </div>
     </nav>
 
-
-    <h1>Hi, {{ session['username'] }}!</h1>
-    <h2>Welcome to The Park Booking Web App!</h2>
-    <h3>Your user id is {{ session['user_id'] }}</h3>
-    <p>This website helps you easily manage and book your parking slots.</p>
+    <div class="intro_section">
+      <h1>Hi, {{ session['username'] }}!</h1>
+      <h2>Welcome to The Park Booking Web App!</h2>
+      <h3>Your user id is {{ session['user_id'] }}</h3>
+      <p>This website helps you easily manage and book your parking slots.</p>
+    </div>
+    
 
         <!-- Carosell image section Custom Section 1 -->
         <div class="custom-section">

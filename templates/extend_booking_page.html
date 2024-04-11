@@ -7,10 +7,9 @@
     <style>
       body {
         font-family: "Arial", sans-serif;
-        background-color: #f8f8f8;
+        background: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 86, 1) 30%, rgba(108, 4, 163, 1) 100%);
         text-align: center;
         margin: 20px;
-        background: radial-gradient(circle at 20% 50%, #E2F17AFA 0%, #92DFF1 100%);
       }
 
       h1 {
@@ -176,10 +175,11 @@
   </head>
   <!-- Form to extend booking -->
   <body>
-    <h1>Extend Booking Duration Page</h1>
+    
 
     <!--  form for selecting the ticket id and it will automaticaly populate the datetime fields from json file-->
     <form action="/extendbook" method="post" onsubmit="return validateForm();">
+      <h1>Extend Booking Duration Page</h1>
       <label for="booking_id"
         >Select Your Available Ticket IDs That You Wish TO Extend:
       </label>
