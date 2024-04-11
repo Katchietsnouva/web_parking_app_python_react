@@ -264,8 +264,7 @@
       <p>This website helps you easily manage and book your parking slots.</p>
     </div>
     
-
-        <!-- Carosell image section Custom Section 1 -->
+        <!-- Custom Section 1 Carousel image section  -->
         <div class="custom-section">
           <h2>Featured Content</h2>
           <p>On April holiday get 45% off of booking rates for every weekend!</p>
@@ -283,9 +282,7 @@
         </div>
 
 
-
-
-    <!-- Custom Section for Parking Slots -->
+    <!-- Custom Section 2 for Parking Slots -->
     <div class="custom-section">
       <h2>All Parking Slots</h2>
       <!-- Legend -->
@@ -337,11 +334,7 @@
     </div>
 
 
-
-
-
-
-    <!-- Custom Section 2 -->
+    <!-- Custom Section 3 Latesr news -->
     <div class="custom-section">
       <h2>Latest Updates</h2>
       <p>Stay tuned for the latest news and updates.</p>
@@ -354,6 +347,8 @@
         greatness."
       </p>
     </div>
+
+
     <script>
       // Function to calculate the amount based on rate
       function calculate_amount(duration_minutes) {
@@ -377,8 +372,10 @@
       }
     </script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <script src="{{ url_for('static', filename='js/jquery-3.6.0.min.js') }}"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script> -->
+    <script src="{{ url_for('static', filename='js/slick.min.js') }}"></script>
     <script>
         $(document).ready(function(){
             $('.carousel').slick({
