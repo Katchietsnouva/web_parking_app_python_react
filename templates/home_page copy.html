@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"> -->
+		<!--<link href="css/tailwind.min.css" rel="stylesheet">-->
+		<!--<script src="{{ url_for('static_css', filename='css/tailwind.min.css') }}"></script>-->
+		<link href="{{ url_for('static_css', filename='css/tailwind.min.css') }}" rel="stylesheet">
+		<!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css"/> -->
+		<link href="{{ url_for('static_css', filename='css/slick.css') }}" rel="stylesheet">
+		<!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css"/> -->
+		<link href="{{ url_for('static_css', filename='css/slick-theme.css') }}" rel="stylesheet">
+		
+		<link href="{{ url_for('static_css', filename='css/home_page.css') }}" rel="stylesheet">
+		<title>Park Booking App</title>
+		<style>
+			body {
+				font-family: "Arial", sans-serif;
+				margin: 20px;
+				text-align: center;
+				/* linear-gradient(-75deg, #020288 0%, #A1027E 100%);*/
+				background: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 86, 1) 30%, rgba(108, 4, 163, 1) 100%);
+			}
+
+			img.bg-image{
+				width: 50px;
+				height: 50px;
+				object-fit: cover;
+				border-radius: 50%;
+			}
+
+			h1 {
+				color: #0066cc;
+				font-size: 36px;
+			}
+
+			p {
+				color: #333;
+			}
+
+			.intro_section h2,
+			.intro_section h3,
+			.intro_section p {
+				color: rgba(196, 197, 191, 1);
+			}
+
+			.custom-section {
+				background: linear-gradient(45deg, #8d038d 0%, #1fb4d5 100%);
+				padding: 20px;
+				margin: 20px;
+				border-radius: 10px;
+			}
+
+			.navigation-container {
+				display: flex;
+				justify-content: center;
+				margin-bottom: 20px;
+			}
+
+			.navigation-button {
+				padding: 10px 20px;
+				font-size: 16px;
+				background-color: #4caf50;
+				color: white;
+				text-decoration: none;
+				border-radius: 5px;
+				margin-right: 10px;
+			}
+
+			.navigation-button:hover {
+				background-color: #45a049;
+			}
+
+			.data-section {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+			}
+
+			.custom-section-content {
+				background: linear-gradient(45deg, #8d038d 0%, #1fb4d5 100%);
+				display: flex;
+				justify-content: space-between;
+				align-items: flex-start;
+				width: 100%;
+				max-width: 1200px; /* Adjust as needed */
+				margin: 0 auto;
+			}
+
+			.right-half,
+			.right-half-2,
+			.right-half-3 {
+				flex-basis: calc(50% - 20px);
+				margin: 0 10px;
+				margin-bottom: 20px;
+			}
+
+			@media screen and (max-width: 768px) {
+				.right-half,
+				.right-half-2,
+				.right-half-3 {
+					flex-basis: 100%;
+				}
+			}
+
+			.booking-entry {
+				border: 1px solid #ddd;
+				padding: 10px;
+				margin-bottom: 10px;
+				border-radius: 5px;
+				background: linear-gradient(45deg, #9e849e 0%, #dae2e4 100%);
+			}
+
+			.payment-entry {
+				border: 1px solid #ddd;
+				padding: 15px;
+				margin-bottom: 15px;
+				background-color: #f9f9f9;
+				border-radius: 8px;
+			}
+
+			.payment-entry p {
+				margin: 5px 0;
+			}
+
+			.no-info-message {
+				color: #888;
+			}
+
+			#payment-type {
+				margin-top: 10px;
+				padding: 8px;
+				border-radius: 5px;
+			}
+
+			.parking-grid {
+				display: grid;
+				grid-template-columns: repeat(6, 1fr);
+				grid-gap: 10px;
+			}
+
+			.parking-slot {
+				padding: 10px;
+				border: 1px solid #ccc;
+				text-align: center;
+			}
+
+			.available {
+				background-color: lightgreen;
+			}
+
+			.occupied {
+				background-color: lightcoral;
+			}
+			.no-parking-slots {
+				text-align: center;
+				grid-column: 1 / -1;
+			}
+
+			.slot-property {
+				flex: 1;
+				font-weight: bold;
+			}
+
+			.button-container_2 {
+				display: flex;
+				justify-content: space-between;
+				margin-top: 10px;
+			}
+
+			.button-container_2 .button {
+				flex: 1; /* Equal width for both buttons */
+				margin: 0 5px;
+			}
+
+			.button-container_2 .edit-button {
+				background-color: #4caf50; /* Green */
+			}
+
+			.button-container_2 .delete-button {
+				background-color: #f44336; /* Red */
+			}
+
+			.button-container_2 .button:hover {
+				opacity: 0.8;
+			}
+
+
+			/* Legend styles */
+			.legend {
+					text-align: center;
+					margin-top: 20px;
+			}
+			.legend-item {
+					display: inline-block;
+					margin-right: 20px;
+			}
+			.legend-item span {
+					display: inline-block;
+					width: 20px;
+					height: 20px;
+					margin-right: 5px;
+					border-radius: 50%;
+			}
+
+			.legend-item .available {
+				background-color: lightgreen;
+			}
+			.legend-item .not_available {
+				background-color: lightcoral;
+			}
+
+
+			.carousel {
+				margin-top: 50px; 
+			}
+			
+			.carousel img {
+				max-width: 60%;
+				height: auto; 
+				border-radius: 10px;
+			}
+
+			.slick-dots {
+				bottom: -40px; 
+			}
+			
+			.carousel .slick-prev img,
+			.carousel .slick-next img {
+				opacity: 0.5; 
+				transition: opacity 0.3s ease; 
+			}
+			
+			.carousel .slick-current img {
+				opacity: 1; 
+			}
+		</style>
+	</head>
+	<body>
+
+		<nav class="bg-gradient-to-r from-purple-500 to-indigo-500 p-4 rounded-md">
+			<div class="container mx-auto flex justify-between items-center">
+				<!-- Logo -->
+				<div class="flex space-x-6">
+					<img href="#" class="bg-image" src="{{ url_for('serve_static', filename='images/1.webp') }}" alt="Background Image">
+					<a href="#" class="text-white font-bold text-xl">Parking App</a>
+				</div>
+				<!-- Navigation Links -->
+				<div class="flex space-x-4">
+						<button onclick="registrationEditing('{{ user_registration_data.user_id }}')" class="text-white hover:bg-gray-800 rounded-md px-4 py-2">Edit Registration</button>
+						<a href="/book" class="text-white hover:bg-gray-800 rounded-md px-4 py-2">Book Parking Now</a>
+						<a href="/extendbook" class="text-white hover:bg-gray-800 rounded-md px-4 py-2">Extend Book Parking Time</a>
+						<a href="/payment/{{ latest_booking_id }}" class="text-white hover:bg-gray-800 rounded-md px-4 py-2">Payment Menu</a>
+						<a href="/login" class="text-white hover:text-gray-300 px-4 py-2 rounded-md bg-gray-800">Logout</a>
+				</div>
+			</div>
+		</nav>
+
+		<div class="intro_section">
+			<h1>Hi, {{ session['username'] }}!</h1>
+			<h2>Welcome to The Park Booking Web App!</h2>
+			<h3>Your user id is {{ session['user_id'] }}</h3>
+			<p>This website helps you easily manage and book your parking slots.</p>
+		</div>
+		
+				<!-- Custom Section 1 Carousel image section  -->
+				<div class="custom-section">
+					<h2>Featured Content</h2>
+					<p>On April holiday get 45% off of booking rates for every weekend!</p>
+					<p>Explore our amazing features and services.</p>
+					<div class="carousel">
+							<div><img src="{{ url_for('serve_static', filename='images/1.webp') }}" alt="Image"></div>
+							<div><img src="{{ url_for('serve_static', filename='images/2.webp') }}" alt="Image"></div>
+							<div><img src="{{ url_for('serve_static', filename='images/3.webp') }}" alt="Image"></div>
+							<div><img src="{{ url_for('serve_static', filename='images/4.webp') }}" alt="Image"></div>          
+							<div><img src="{{ url_for('serve_static', filename='images/5.webp') }}" alt="Image"></div>
+							<div><img src="{{ url_for('serve_static', filename='images/6.webp') }}" alt="Image"></div>          
+							<div><img src="{{ url_for('serve_static', filename='images/7.webp') }}" alt="Image"></div>
+							<div><img src="{{ url_for('serve_static', filename='images/8.webp') }}" alt="Image"></div>          
+					</div>
+				</div>
+
+
+		<!-- Custom Section 2 for Parking Slots -->
+		<div class="custom-section">
+			<h2>All Parking Slots</h2>
+			<!-- Legend -->
+			<div class="legend">
+				<div class="legend-item">
+					<span class="available"></span>
+					Available for use
+				</div>
+				<div class="legend-item">
+					<span class="not_available"></span>
+					Not available for use
+				</div>
+			</div>
+			<div class="parking-grid">
+				{% if parking_slots %} {% for slot in parking_slots %}
+				<div
+					class="parking-slot {% if slot.available_for_use == True %}available{% else %}occupied{% endif %}"
+				>
+					<strong>{{ slot.parking_slot_id }}</strong><br>
+					<div class="slot-property">Status:</div>
+					{{ slot.slot_status }}
+					<div class="slot-property">Available For Use?</div>
+					{{ slot.available_for_use }}
+					<div class="button-container_2">
+						<button
+							class="button edit-button"
+							onclick="currentUserSlotHistory('{{slot.parking_slot_id}}')"
+						>
+							Preview your History for this slot
+						</button>
+						<button
+							class="button delete-button"
+							onclick="allUsereSlotHistory('{{slot.parking_slot_id}}')"
+						>
+							Preview Other Users History for this slot
+						</button>
+					</div>
+				</div>
+				{% endfor %} {% else %}
+				<div class="no-parking-slots">
+					<h2>
+						<strong
+							>No parking slots have been created. Sorry you cant book!
+						</strong>
+					</h2>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+
+
+		<!-- Custom Section 3 Latesr news -->
+		<div class="custom-section">
+			<h2>Latest Updates</h2>
+			<p>Stay tuned for the latest news and updates.</p>
+			<p>
+				We are expanding the number of booking slots by 200 by the end of
+				October this year.
+			</p>
+			<p>
+				"Thus, do we endure times of hardship, labor, and pain, so as to obtain
+				greatness."
+			</p>
+		</div>
+
+
+		<script>
+			// Function to calculate the amount based on rate
+			function calculate_amount(duration_minutes) {
+				var rate = 0.8; // Rate in Kshs. per minute
+				return (duration_minutes * rate).toFixed(2);
+			}
+		
+
+			function registrationEditing(current_user_session_id) {
+				window.location.href = "/register/" + current_user_session_id;
+			}
+
+			function currentUserSlotHistory(parking_slot_id){
+				var current_user_session_id = "{{ user_registration_data.user_id }}";  
+				window.location.href = "/parking_slot_id/" + parking_slot_id + "/" + current_user_session_id;
+			}
+
+			function allUsereSlotHistory(parking_slot_id){
+				var current_user_session_id = "all";
+				window.location.href = "/parking_slot_id/" + parking_slot_id + "/" + current_user_session_id;
+			}
+		</script>
+
+		<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+		<script src="{{ url_for('static', filename='js/jquery-3.6.0.min.js') }}"></script>
+		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script> -->
+		<script src="{{ url_for('static', filename='js/slick.min.js') }}"></script>
+		<script>
+				$(document).ready(function(){
+						$('.carousel').slick({
+								slidesToShow: 4,
+								slidesToScroll: 1,
+								autoplay: true,
+								autoplaySpeed: 1000,
+								dots: true,
+								arrows: false
+						});
+				});
+				//$('.carousel').on('beforeChange', function(event, slick, currentSlide, nextSlide){
+					// Reset opacity for all images
+					//$('.slick-slide img').css('opacity', '0.5');
+					// Set full opacity for the main (current) image
+					//$('.slick-current img').css('opacity', '1');
+				//});
+		</script>
+	</body>
+</html>
