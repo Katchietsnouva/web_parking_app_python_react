@@ -7,8 +7,10 @@
     <!--<link href="css/tailwind.min.css" rel="stylesheet">-->
     <!--<script src="{{ url_for('static_css', filename='css/tailwind.min.css') }}"></script>-->
     <link href="{{ url_for('static_css', filename='css/tailwind.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css"/>
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css"/>
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css"/> -->
+    <link href="{{ url_for('static_css', filename='css/slick.css') }}" rel="stylesheet">
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css"/> -->
+    <link href="{{ url_for('static_css', filename='css/slick-theme.css') }}" rel="stylesheet">
     
     <link href="{{ url_for('static_css', filename='css/home_page.css') }}" rel="stylesheet">
     <title>Park Booking App</title>
@@ -18,11 +20,7 @@
         margin: 20px;
         text-align: center;
         /* linear-gradient(-75deg, #020288 0%, #A1027E 100%);*/
-        background: radial-gradient(
-          circle at 20% 50%,
-          #e2f17afa 0%,
-          #92dff1 100%
-        );
+        background: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 86, 1) 30%, rgba(108, 4, 163, 1) 100%);
       }
 
       img.bg-image{
@@ -216,17 +214,19 @@
         height: auto; 
         border-radius: 10px;
       }
+
+      .slick-dots {
+        bottom: -40px; 
+      }
       
-      /* Apply styles to the previous and next images */
       .carousel .slick-prev img,
       .carousel .slick-next img {
-        opacity: 0.5; /* Reduce opacity to make them appear subdued */
-        transition: opacity 0.3s ease; /* Add transition for smooth effect */
+        opacity: 0.5; 
+        transition: opacity 0.3s ease; 
       }
-
-      /* Apply styles to the active (main) image */
+      
       .carousel .slick-current img {
-        opacity: 1; /* Maintain full opacity for the active image */
+        opacity: 1; 
       }
     </style>
   </head>
@@ -256,7 +256,25 @@
     <h3>Your user id is {{ session['user_id'] }}</h3>
     <p>This website helps you easily manage and book your parking slots.</p>
 
-    
+        <!-- Carosell image section Custom Section 1 -->
+        <div class="custom-section">
+          <h2>Featured Content</h2>
+          <p>On April holiday get 45% off of booking rates for every weekend!</p>
+          <p>Explore our amazing features and services.</p>
+          <div class="carousel">
+              <div><img src="{{ url_for('serve_static', filename='images/1.webp') }}" alt="Image"></div>
+              <div><img src="{{ url_for('serve_static', filename='images/2.webp') }}" alt="Image"></div>
+              <div><img src="{{ url_for('serve_static', filename='images/3.webp') }}" alt="Image"></div>
+              <div><img src="{{ url_for('serve_static', filename='images/4.webp') }}" alt="Image"></div>          
+              <div><img src="{{ url_for('serve_static', filename='images/5.webp') }}" alt="Image"></div>
+              <div><img src="{{ url_for('serve_static', filename='images/6.webp') }}" alt="Image"></div>          
+              <div><img src="{{ url_for('serve_static', filename='images/7.webp') }}" alt="Image"></div>
+              <div><img src="{{ url_for('serve_static', filename='images/8.webp') }}" alt="Image"></div>          
+          </div>
+        </div>
+
+
+
 
     <!-- Custom Section for Parking Slots -->
     <div class="custom-section">
@@ -310,22 +328,7 @@
     </div>
 
 
-    <!-- Custom Section 1 -->
-    <div class="custom-section">
-      <h2>Featured Content</h2>
-      <p>On April holiday get 45% off of booking rates for every weekend!</p>
-      <p>Explore our amazing features and services.</p>
-      <div class="carousel">
-          <div><img src="{{ url_for('serve_static', filename='images/1.webp') }}" alt="Image"></div>
-          <div><img src="{{ url_for('serve_static', filename='images/2.webp') }}" alt="Image"></div>
-          <div><img src="{{ url_for('serve_static', filename='images/3.webp') }}" alt="Image"></div>
-          <div><img src="{{ url_for('serve_static', filename='images/4.webp') }}" alt="Image"></div>          
-          <div><img src="{{ url_for('serve_static', filename='images/5.webp') }}" alt="Image"></div>
-          <div><img src="{{ url_for('serve_static', filename='images/6.webp') }}" alt="Image"></div>          
-          <div><img src="{{ url_for('serve_static', filename='images/7.webp') }}" alt="Image"></div>
-          <div><img src="{{ url_for('serve_static', filename='images/8.webp') }}" alt="Image"></div>          
-      </div>
-    </div>
+
 
 
 
@@ -373,7 +376,7 @@
                 slidesToShow: 4,
                 slidesToScroll: 1,
                 autoplay: true,
-                autoplaySpeed: 2000,
+                autoplaySpeed: 1000,
                 dots: true,
                 arrows: false
             });

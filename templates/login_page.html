@@ -12,24 +12,24 @@
             margin: 0;
             padding: 0;
             background-image: url("{{ url_for('serve_static', filename='images/1.webp') }}");
-            background-size: cover; /* Cover the entire container */
-            background-position: center; /* Center the image horizontally and vertically */
-            background-repeat: no-repeat; /* Do not repeat the image */
-            background-attachment: fixed; /* Fixed background position */
-            height: 100vh; /* Set height to full viewport height */
-            overflow: hidden; /* Hide scrollbars */
+            background-size: cover; 
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed; 
+            height: 100vh; 
+            overflow: hidden; 
         }
 
         .overlay {
             position: absolute;
-            margin: 20px; /* Add padding to the overlay */
+            margin: 20px; 
             padding: 20px;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
             height: 80%;
-            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+            background-color: rgba(0, 0, 0, 0.5); 
             z-index: 1;
             border-radius: 50%;
         }
@@ -43,13 +43,13 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             position: relative; /* Ensure z-index works properly */
             z-index: 2; /* Set z-index to appear above the overlay */
-            color: blue; /* Change text color */
+            color: blue; 
         }
 
         .container {
             max-width: 300px;
             margin: 20px auto 20px; /* Center horizontally and add bottom margin */
-            background-color: #fff;
+            background: radial-gradient(ellipse at 50% 50%, rgba(196, 197, 191, 1) 100%, rgba(249, 250, 160, 1) 100%);
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
