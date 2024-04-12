@@ -174,7 +174,8 @@ class UserController:
         print("Available slots:", available_slots)
 
         if not available_slots:
-            return None, "No available slots at the moment. Please try again later."
+            print("exiting")
+            return None, None, "No available slots at the moment. Please try again later.", 
 
         print("Bookings:", bookings)
 

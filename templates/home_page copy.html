@@ -298,15 +298,27 @@
 			</div>
 			<div class="parking-grid">
 				{% if parking_slots %} {% for slot in parking_slots %}
-				<div class="parking-slot {% if slot.available_for_use == True %}available{% else %}occupied{% endif %}">
+				<div
+					class="parking-slot {% if slot.available_for_use == True %}available{% else %}occupied{% endif %}"
+				>
 					<strong>{{ slot.parking_slot_id }}</strong><br>
 					<div class="slot-property">Status:</div>
 					{{ slot.slot_status }}
 					<div class="slot-property">Available For Use?</div>
 					{{ slot.available_for_use }}
 					<div class="button-container_2">
-						<button class="button edit-button" onclick="currentUserSlotHistory('{{slot.parking_slot_id}}')"> Preview your History for this slot </button>
-						<button class="button delete-button" onclick="allUsereSlotHistory('{{slot.parking_slot_id}}')"> Preview Other Users History for this slot </button>
+						<button
+							class="button edit-button"
+							onclick="currentUserSlotHistory('{{slot.parking_slot_id}}')"
+						>
+							Preview your History for this slot
+						</button>
+						<button
+							class="button delete-button"
+							onclick="allUsereSlotHistory('{{slot.parking_slot_id}}')"
+						>
+							Preview Other Users History for this slot
+						</button>
 					</div>
 				</div>
 				{% endfor %} {% else %}

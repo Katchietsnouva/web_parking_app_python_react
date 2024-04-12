@@ -326,7 +326,7 @@ class PageController:
                 # Save the time entry to the data service controller
                 specific_bookin_id = UserController.save_user_time_data(self.user_controller, time_model)
                 
-                flash('Booking Successful!', 'success')
+                
                 
                 # Generate parking slot assignments
                 all_booking_time_data = self.user_controller.get_all_time_data()
@@ -347,7 +347,10 @@ class PageController:
                 parking_assignments, booking_message, error_message  = UserController.assign_parking_slot(self.user_controller, latest_mod_ticket_details)
 
                 if parking_assignments == None:
-                    error_message =  "Sorry, for the selected time range, all available slots are already booked. Kindly select another time range"
+                    if error_message:
+                        error_message = error_message
+                    else:
+                        error_message =  "Sorry, for the selected time range, all available slots are already booked. Kindly select another time range"
 
 
                 if error_message:
@@ -411,6 +414,7 @@ class PageController:
                     
             
                 # return redirect(url_for('success', message='Booking SuIsiah Maxwell & ccessful!', duration=duration, redirect_url=url_for('home')))
+                flash('Booking Successful!', 'success')
                 return render_template('booking_page.html', duration=duration, booking_successful=True, latest_booking_id=time_model.booking_id, booking_message= booking_message )
             
                 return render_template('booking_page.html', duration=duration, booking=time_model.to_dict())

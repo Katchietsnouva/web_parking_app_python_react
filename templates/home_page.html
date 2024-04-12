@@ -285,6 +285,16 @@
 		<!-- Custom Section 2 for Parking Slots -->
 		<div class="custom-section">
 			<h2>All Parking Slots</h2>
+			{% if not parking_slots %}
+				<div class="no-parking-slots">
+					<h2>
+						<strong
+							>No parking slots have been created. Sorry you cant book!
+						</strong>
+					</h2>
+				</div>
+				{% endif %}
+				
 			<!-- Legend -->
 			<div class="legend">
 				<div class="legend-item">
@@ -296,29 +306,55 @@
 					Not available for use
 				</div>
 			</div>
+			
+
+			<div class="parking-simulation">
+				
+
+				{% for floor in range(1, 5) %}
+					<div class="floor">
+						<h2>Floor {{ floor }}</h2>
+						<div class="slots">
+							{% for i in range(1, 11) %}
+								{% set slot_index = (floor - 1) * 10 + i %}
+								{% if parking_slots and slot_index <= parking_slots|length %}
+									{% set slot = parking_slots[slot_index - 1] %}
+									<div class="slot">
+										<div class="parking-slot {% if slot.available_for_use %}available{% else %}occupied{% endif %}">
+											<strong>{{ slot.parking_slot_id }}</strong><br>
+											<!-- <div class="slot-property">Status:</div> -->
+											<!-- {{ slot.slot_status }}-->
+											<!-- <div class="slot-property">Available For Use?</div> -->
+											<!-- {{ slot.available_for_use }} -->
+											<div class="button-container_2">
+												<button class="button edit-button" onclick="currentUserSlotHistory('{{ slot.parking_slot_id }}')">Preview</button>
+												<button class="button delete-button" onclick="allUsereSlotHistory('{{ slot.parking_slot_id }}')">More</button>
+											</div>
+										</div>
+									</div>
+								{% else %}
+									<!-- <div class="slot">
+										<span class="slot-label">Slot {{ i }}</span>
+									</div> -->
+								{% endif %}
+							{% endfor %}
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+
+			
 			<div class="parking-grid">
 				{% if parking_slots %} {% for slot in parking_slots %}
-				<div
-					class="parking-slot {% if slot.available_for_use == True %}available{% else %}occupied{% endif %}"
-				>
+				<div class="parking-slot {% if slot.available_for_use == True %}available{% else %}occupied{% endif %}">
 					<strong>{{ slot.parking_slot_id }}</strong><br>
 					<div class="slot-property">Status:</div>
 					{{ slot.slot_status }}
 					<div class="slot-property">Available For Use?</div>
 					{{ slot.available_for_use }}
 					<div class="button-container_2">
-						<button
-							class="button edit-button"
-							onclick="currentUserSlotHistory('{{slot.parking_slot_id}}')"
-						>
-							Preview your History for this slot
-						</button>
-						<button
-							class="button delete-button"
-							onclick="allUsereSlotHistory('{{slot.parking_slot_id}}')"
-						>
-							Preview Other Users History for this slot
-						</button>
+						<button class="button edit-button" onclick="cu	rrentUserSlotHistory('{{slot.parking_slot_id}}')"> Preview your History for this slot </button>
+						<button class="button delete-button" onclick="allUsereSlotHistory('{{slot.parking_slot_id}}')"> Preview Other Users History for this slot </button>
 					</div>
 				</div>
 				{% endfor %} {% else %}
