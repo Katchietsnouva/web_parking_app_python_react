@@ -158,6 +158,11 @@
 				grid-column: 1 / -1;
 			}
 
+			.no-parking-slots h2{
+				font-size: 40px;
+				color: lightcoral;
+			}
+
 			.slot-property {
 				flex: 1;
 				font-weight: bold;
@@ -239,7 +244,7 @@
 	</head>
 	<body>
 
-		<nav class="bg-gradient-to-r from-purple-500 to-indigo-500 p-4 rounded-md">
+		<nav class="bg-gradient-to-r from-purple-500 to-indigo-600 p-4 rounded-md">
 			<div class="container mx-auto flex justify-between items-center">
 				<!-- Logo -->
 				<div class="flex space-x-6">
@@ -260,7 +265,7 @@
 		<div class="intro_section">
 			<h1>Hi, {{ session['username'] }}!</h1>
 			<h2>Welcome to The Park Booking Web App!</h2>
-			<h3>Your user id is {{ session['user_id'] }}</h3>
+			<h3>Your user id is <strong>{{ session['user_id'] }} </strong> 	</h3>
 			<p>This website helps you easily manage and book your parking slots.</p>
 		</div>
 		
@@ -285,6 +290,16 @@
 		<!-- Custom Section 2 for Parking Slots -->
 		<div class="custom-section">
 			<h2>All Parking Slots</h2>
+			{% if not parking_slots %}
+				<div class="no-parking-slots">
+					<h2>
+						<strong
+							>No parking slots have been created. Sorry you cant book!
+						</strong>
+					</h2>
+				</div>
+				{% endif %}
+				
 			<!-- Legend -->
 			<div class="legend">
 				<div class="legend-item">
@@ -296,41 +311,41 @@
 					Not available for use
 				</div>
 			</div>
-			<div class="parking-grid">
-				{% if parking_slots %} {% for slot in parking_slots %}
-				<div
-					class="parking-slot {% if slot.available_for_use == True %}available{% else %}occupied{% endif %}"
-				>
-					<strong>{{ slot.parking_slot_id }}</strong><br>
-					<div class="slot-property">Status:</div>
-					{{ slot.slot_status }}
-					<div class="slot-property">Available For Use?</div>
-					{{ slot.available_for_use }}
-					<div class="button-container_2">
-						<button
-							class="button edit-button"
-							onclick="currentUserSlotHistory('{{slot.parking_slot_id}}')"
-						>
-							Preview your History for this slot
-						</button>
-						<button
-							class="button delete-button"
-							onclick="allUsereSlotHistory('{{slot.parking_slot_id}}')"
-						>
-							Preview Other Users History for this slot
-						</button>
+			
+
+			<div class="parking-simulation">
+				{% for floor in range(1, 5) %}
+					<div class="floor">
+						<h2>Floor {{ floor }}</h2>
+						<div class="slots">
+							{% for i in range(1, 11) %}
+								{% set slot_index = (floor - 1) * 10 + i %}
+								{% if parking_slots and slot_index <= parking_slots|length %}
+									{% set slot = parking_slots[slot_index - 1] %}
+									<div class="slot">
+										<div class="parking-slot {% if slot.available_for_use %}available{% else %}occupied{% endif %}">
+											<strong>{{ slot.parking_slot_id }}</strong><br>
+											<!-- <div class="slot-property">Status:</div> -->
+											<!-- {{ slot.slot_status }}-->
+											<!-- <div class="slot-property">Available For Use?</div> -->
+											<!-- {{ slot.available_for_use }} -->
+											<div class="button-container_2">	
+												<button class="text-black-500 bg-gray-400 hover:bg-gray-800 hover:text-white rounded-md px-4 py-2" onclick="currentUserSlotHistory('{{ slot.parking_slot_id }}')">Preview</button>
+												<button class="text-white hover:text-gray-300 px-4 py-2 rounded-md bg-gray-800" onclick="allUsereSlotHistory('{{ slot.parking_slot_id }}')">More</button>
+											</div>
+										</div>
+									</div>
+								{% else %}
+									<!-- <div class="slot">
+										<span class="slot-label">Slot {{ i }}</span>
+									</div> -->
+								{% endif %}
+							{% endfor %}
+						</div>
 					</div>
-				</div>
-				{% endfor %} {% else %}
-				<div class="no-parking-slots">
-					<h2>
-						<strong
-							>No parking slots have been created. Sorry you cant book!
-						</strong>
-					</h2>
-				</div>
-				{% endif %}
+				{% endfor %}
 			</div>
+			
 		</div>
 
 
@@ -381,7 +396,7 @@
 						$('.carousel').slick({
 								slidesToShow: 4,
 								slidesToScroll: 1,
-								autoplay: true,
+								autoplay: true,	
 								autoplaySpeed: 1000,
 								dots: true,
 								arrows: false

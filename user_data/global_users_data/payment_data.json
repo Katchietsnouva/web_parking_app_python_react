@@ -1,1 +1,12 @@
-[]
+[
+    {
+        "payment_id": "Payment_id-001",
+        "booking_id": "Book_id-009",
+        "customer_number": "CUST-2",
+        "payment_date": "2024-04-12T04:28:30.460723",
+        "duration_minutes": 60,
+        "amount": 48.0,
+        "is_paid": true,
+        "payment_type": "mpesa"
+    }
+]
