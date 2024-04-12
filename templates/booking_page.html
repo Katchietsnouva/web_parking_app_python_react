@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="{{ url_for('static_css', filename='css/tailwind.min.css') }}" rel="stylesheet">
     <title>Booking Page</title>
     <style>
       body {
@@ -10,6 +11,13 @@
         background: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 86, 1) 30%, rgba(108, 4, 163, 1) 100%);
         text-align: center;
         margin: 20px;
+      }
+      
+      img.bg-image{
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 50%;
       }
 
       h1 {
@@ -20,7 +28,7 @@
 
       form {
         max-width: 400px;
-        margin: 0 auto;
+        margin: 40px auto;
         background-color: #fff;
         padding: 20px;
         border-radius: 10px;
@@ -86,6 +94,22 @@
     </style>
   </head>
   <body>
+    <nav class="bg-gradient-to-r from-purple-500 to-indigo-600 p-4 rounded-md">
+      <div class="container_2 mx-auto flex justify-between items-center">
+        <!-- Logo -->
+        <div class="flex space-x-6">
+          <img href="#" class="bg-image" src="{{ url_for('serve_static', filename='images/1.webp') }}" alt="Background Image">
+          <a href="#" class="text-white font-bold text-xl">Parking App</a>
+        </div>
+        <!-- Navigation Links -->
+        <div class="flex space-x-4">
+            <a href="/home" class="text-white hover:bg-gray-800 rounded-md px-4 py-2">Home</a>
+            <a onclick="goBack()" class="text-white hover:bg-gray-800 rounded-md px-4 py-2">Go Back</a>
+            <a href="/login" class="text-white hover:text-gray-300 px-4 py-2 rounded-md bg-gray-800">Logout</a>
+        </div>
+      </div>
+    </nav>
+  
 
     <!-- Booking form -->
     <!--<form action="/book" method="post">-->
@@ -167,6 +191,12 @@
     </form>
 
     <a href="/home">Home Page</a>
+    
+	<script>
+		function goBack() {
+			window.history.back();
+		}
+	</script>
 
   </body>
 </html>

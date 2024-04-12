@@ -3,14 +3,23 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link href="{{ url_for('static_css', filename='css/tailwind.min.css') }}" rel="stylesheet">
     <title>All Slot History</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
+            margin: 20px;
             padding: 0;
             background: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 86, 1) 30%, rgba(108, 4, 163, 1) 100%);
         }
+
+		
+		img.bg-image{
+			width: 50px;
+			height: 50px;
+			object-fit: cover;
+			border-radius: 50%;
+		}
 
         .container {
             max-width: 800px;
@@ -88,40 +97,60 @@
     </style>
 </head>
 <body>
-<div class="container">
-    <h1>All Slot History</h1>
 
-    {% if time_occupied_data %}
-    <h2>Slot ID: {{ selected_id_data }}</h2>
+	<nav class="bg-gradient-to-r from-purple-500 to-indigo-600 p-4 rounded-md">
+		<div class="container_2 mx-auto flex justify-between items-center">
+			<!-- Logo -->
+			<div class="flex space-x-6">
+				<img href="#" class="bg-image" src="{{ url_for('serve_static', filename='images/1.webp') }}" alt="Background Image">
+				<a href="#" class="text-white font-bold text-xl">Parking App</a>
+			</div>
+			<!-- Navigation Links -->
+			<div class="flex space-x-4">
+					<a onclick="goBack()" class="text-white hover:bg-gray-800 rounded-md px-4 py-2">Go Back</a>
+					<a href="/book" class="text-white hover:bg-gray-800 rounded-md px-4 py-2">Book Parking Now</a>
+						<a href="/extendbook" class="text-white hover:bg-gray-800 rounded-md px-4 py-2">Extend Book Parking Time</a>
+					<a href="/login" class="text-white hover:text-gray-300 px-4 py-2 rounded-md bg-gray-800">Logout</a>
+			</div>
+		</div>
+	</nav>
 
-    <table>
-        <thead>
-        <tr>
-            <th>From</th>
-            <th>To</th>
-            <th>Customer Number</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for entry in time_occupied_data %}
-        <tr>
-            <td>{{ entry.from }}</td>
-            <td>{{ entry.to }}</td>
-            <td>{{ entry.customer_number }}</td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-    <p class="no-data">No parking history available for this slot.</p>
-    {% endif %}
+		
+	<div class="container">
+		<h1>All Slot History</h1>
 
-    <a onclick="goBack()" class="navigation-button">Go Back</a>
-</div>
-<script>
-    function goBack() {
-        window.history.back();
-    }
-</script>
+		{% if time_occupied_data %}
+		<h2>Slot ID: {{ selected_id_data }}</h2>
+
+		<table>
+			<thead>
+			<tr>
+				<th>From</th>
+				<th>To</th>
+				<th>Customer Number</th>
+			</tr>
+			</thead>
+			<tbody>
+			{% for entry in time_occupied_data %}
+			<tr>
+				<td>{{ entry.from }}</td>
+				<td>{{ entry.to }}</td>
+				<td>{{ entry.customer_number }}</td>
+			</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+		{% else %}
+		<p class="no-data">No one has ever used this slot. No parking history available for this slot.</p>
+		{% endif %}
+
+		<button onclick="goBack()" class="navigation-button">Go Back</button>
+		
+	</div>
+	<script>
+		function goBack() {
+			window.history.back();
+		}
+	</script>
 </body>
 </html>

@@ -3,16 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="{{ url_for('static_css', filename='css/tailwind.min.css') }}" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Current User Slot History</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 86, 1) 30%, rgba(108, 4, 163, 1) 100%);
-            margin: 0;
+            margin: 20px;
             padding: 0;
         }
 
+        img.bg-image{
+			width: 50px;
+			height: 50px;
+			object-fit: cover;
+			border-radius: 50%;
+		}
+        
         .container {
             max-width: 800px;
             margin: 50px auto;
@@ -85,6 +93,25 @@
     </style>
 </head>
 <body>
+
+    <nav class="bg-gradient-to-r from-purple-500 to-indigo-600 p-4 rounded-md">
+		<div class="container_2 mx-auto flex justify-between items-center">
+			<!-- Logo -->
+			<div class="flex space-x-6">
+				<img href="#" class="bg-image" src="{{ url_for('serve_static', filename='images/1.webp') }}" alt="Background Image">
+				<a href="#" class="text-white font-bold text-xl">Parking App</a>
+			</div>
+			<!-- Navigation Links -->
+			<div class="flex space-x-4">
+					<a onclick="goBack()" class="text-white hover:bg-gray-800 rounded-md px-4 py-2">Go Back</a>
+                    <a href="/book" class="text-white hover:bg-gray-800 rounded-md px-4 py-2">Book Parking Now</a>
+						<a href="/extendbook" class="text-white hover:bg-gray-800 rounded-md px-4 py-2">Extend Book Parking Time</a>
+					<a href="/login" class="text-white hover:text-gray-300 px-4 py-2 rounded-md bg-gray-800">Logout</a>
+			</div>
+		</div>
+	</nav>
+
+
     <div class="container">
         <h1>Current User Slot History</h1>
     
